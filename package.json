@@ -1,0 +1,9 @@
+{
+  "name": "coastal-cowboy-social",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Coastal Cowboy Social (102 W Shell Point Road, Ruskin FL 33570) — pre-opening site for the January 2027 opening (websites lane)",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "engines": { "node": ">=18" }
+}

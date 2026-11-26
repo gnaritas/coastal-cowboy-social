@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://coastal-cowboy-social-demo.up.railway.app/sitemap.xml
