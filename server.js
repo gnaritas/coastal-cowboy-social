@@ -26,14 +26,13 @@ function send(res, code, body, type, extraHeaders) {
 function serveStatic(req, res, pathname) {
   let rel = pathname === "/" ? "/index.html" : pathname;
   let file = path.normalize(path.join(PUB, rel));
+  if (!path.extname(file)) file += ".html";
   if (!file.startsWith(PUB)) return send(res, 403, "forbidden", "text/plain", { "X-Robots-Tag": "noindex, nofollow" });
-  if (pathname.endsWith(".html")) {
-    try {
-      fs.accessSync(file);
-    } catch {
-      file = path.join(PUB, "404.html");
-      return send(res, 404, fs.readFileSync(file), "text/html; charset=utf-8", { "X-Robots-Tag": "noindex, nofollow" });
-    }
+  try {
+    fs.accessSync(file);
+  } catch {
+    file = path.join(PUB, "404.html");
+    return send(res, 404, fs.readFileSync(file), "text/html; charset=utf-8", { "X-Robots-Tag": "noindex, nofollow" });
   }
   fs.readFile(file, (err, buf) => {
     if (err) return send(res, 404, fs.readFileSync(path.join(PUB, "404.html")), "text/html; charset=utf-8", { "X-Robots-Tag": "noindex, nofollow" });
