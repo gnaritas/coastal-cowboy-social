@@ -24,14 +24,14 @@ def M(size):
 def tw(d, t, f, tr=0):
     total = 0
     for ch in t:
-        total = d.textbbox((0, 0), ch, font=f)[3] + tr
+        total += f.getlength(ch) + tr
     return total - tr
 
 def text(d, x, y, t, f, fill, tr=0):
     cx = x
     for ch in t:
         d.text((cx, y), ch, font=f, fill=fill)
-        cx += d.textbbox((0, 0), ch, font=f)[3] + tr
+        cx += f.getlength(ch) + tr
 
 def center(d, y, t, f, fill, tr=0):
     text(d, (W - tw(d, t, f, tr)) // 2, y, t, f, fill, tr)
@@ -39,9 +39,11 @@ def center(d, y, t, f, fill, tr=0):
 img = Image.new("RGB", (W, H), INK)
 d = ImageDraw.Draw(img)
 
-# brand rope: rust over teal, full width
+# brand rope: rust over teal top, mirrored teal over rust bottom
 d.rectangle((0, 0, W - 1, 3), fill=RUST)
 d.rectangle((0, 3, W - 1, 6), fill=TEAL)
+d.rectangle((0, H - 6, W - 1, H - 4), fill=TEAL)
+d.rectangle((0, H - 3, W - 1, H - 1), fill=RUST)
 # double outline frame: bone outer, rust inner
 d.rectangle((26, 26, W - 27, H - 27), outline=BONE, width=1)
 d.rectangle((34, 34, W - 35, H - 35), outline=RUST, width=3)
