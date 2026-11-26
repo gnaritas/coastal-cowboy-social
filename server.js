@@ -58,10 +58,11 @@ function relay(name, email, message) {
     `<p><b>message:</b></p><p>${esc(message) || "(empty)"}</p>` +
     `<p style="color:#777;font-size:12px">via ${SITE} demo contact form</p>`;
   const payload = {
-    sender: `${SITE} demo <jarvis@onsmalltalk.com>`,
-    to: [{ email: "jarvis@onsmalltalk.com", name: "OnSmalltalk Media — lane inbox" }],
-    replyTo: /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email || "") ? email : "jarvis@onsmalltalk.com",
-    subject, htmlContent: html, textContent: `from: ${name} <${email}>\npage: ${SITE_ORIGIN}/contact\n\nmessage:\n${message || "(empty)"}`,
+    sender: { name: SITE + " demo", email: "jarvis+websites@onsmalltalk.com" },
+    to: [{ email: "jarvis+websites@onsmalltalk.com", name: "OnSmalltalk Media — lane inbox" }],
+    replyTo: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email || "") ? { email, name: name || email } : undefined,
+    subject, htmlContent: html,
+    textContent: `from: ${name} <${email}>\npage: ${SITE_ORIGIN}/contact\n\nmessage:\n${message || "(empty)"}`,
   };
   return fetch("https://api.brevo.com/v3/smtp/email", {
     method: "POST",
